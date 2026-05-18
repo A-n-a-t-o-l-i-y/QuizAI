@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { API_URL } from "../config";
 
 export default function Admin() {
   const [loading, setLoading] = useState(false);
@@ -9,7 +10,7 @@ export default function Admin() {
     const token = localStorage.getItem("token");
     
     try {
-      const res = await fetch("/api/quiz/admin/reset-leaderboard", {
+      const res = await fetch(`${API_URL}/api/quiz/admin/reset-leaderboard`, {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` }
       });

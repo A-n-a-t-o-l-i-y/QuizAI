@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { API_URL } from '../config';
 
 interface Question {
   id: string;
@@ -25,7 +26,7 @@ export default function Quiz() {
 
   // Загрузка списка тестов
   useEffect(() => {
-    fetch("/api/quiz/categories")
+    fetch(`${API_URL}/api/quiz/categories`)
       .then(res => res.json())
       .then(data => {
         setCategories(data);
@@ -45,7 +46,7 @@ export default function Quiz() {
     }
 
     try {
-      const res = await fetch("/api/quiz/generate", {
+      const res = await fetch(`${API_URL}/api/quiz/generate`, {
         method: "POST",
         headers: { 
           "Content-Type": "application/json", 
@@ -97,7 +98,7 @@ export default function Quiz() {
     });
 
     try {
-      const res = await fetch("/api/quiz/submit", {
+      const res = await fetch(`${API_URL}/api/quiz/submit`, {
         method: "POST",
         headers: { 
           "Content-Type": "application/json",

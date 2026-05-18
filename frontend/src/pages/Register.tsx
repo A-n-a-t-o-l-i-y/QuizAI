@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { API_URL } from "../config";
 
 export default function Register() {
   const [username, setUsername] = useState("");
@@ -8,13 +9,22 @@ export default function Register() {
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
-    const res = await fetch("/api/auth/register", {
-      method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password }),
-    });
-    const data = await res.json();
-    if (res.ok) navigate("/login");
-    else alert(data.error);
+    try {
+      const res = await fetch(`${API_URL}/api/auth/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        alert("Регистрация успешна! Теперь войдите.");
+        navigate("/login");
+      } else {
+        alert(data.error || "Ошибка регистрации");
+      }
+    } catch (error) {
+      alert("Ошибка соединения с сервером");
+    }
   };
 
   return (
