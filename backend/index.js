@@ -6,13 +6,10 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // CORS для GitHub Pages
-app.use(cors({
-  origin: '*'
-}));
-
+app.use(cors({ origin: '*' }));
 app.use(express.json());
 
-// Маршруты
+// ✅ МАРШРУТ /health - ОБЯЗАТЕЛЬНО ДОЛЖЕН БЫТЬ!
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
@@ -91,6 +88,12 @@ app.get('/api/quiz/leaderboard', (req, res) => {
 
 app.post('/api/quiz/admin/reset-leaderboard', (req, res) => {
   res.json({ message: 'Таблица лидеров сброшена' });
+});
+
+// Обработка 404 - должна быть в конце!
+app.use((req, res) => {
+  console.log('404:', req.method, req.url);
+  res.status(404).json({ error: 'Маршрут не найден' });
 });
 
 app.listen(PORT, () => {
