@@ -1,11 +1,11 @@
-import { Routes, Route, Navigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { Routes, Route, Navigate, Link } from "react-router-dom"; // ← Добавьте Link
+import { useState } from "react";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Quiz from "./pages/Quiz";
 import Leaderboard from "./pages/Leaderboard";
-import Admin from "./pages/Admin"; // ✅ Импортируем админку
+import Admin from "./pages/Admin";
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem("token"));
@@ -21,17 +21,18 @@ function App() {
         {/* Навигация */}
         <nav className="bg-blue-600 text-white p-4 shadow-lg">
           <div className="max-w-6xl mx-auto flex justify-between items-center">
-            <a href="/" className="text-xl font-bold flex items-center gap-2">
+            {/* ЗАМЕНИТЕ <a> НА <Link> */}
+            <Link to="/" className="text-xl font-bold flex items-center gap-2">
               🧠 QuizAI
-            </a>
+            </Link>
             
             <div className="flex gap-6 items-center">
-              <a href="/" className="hover:text-blue-200 transition">Главная</a>
+              <Link to="/" className="hover:text-blue-200 transition">Главная</Link>
               {token && (
                 <>
-                  <a href="/quiz" className="hover:text-blue-200 transition">Тест</a>
-                  <a href="/leaderboard" className="hover:text-blue-200 transition">Лидеры</a>
-                  <a href="/admin" className="hover:text-blue-200 transition">⚙️ Админ</a>
+                  <Link to="/quiz" className="hover:text-blue-200 transition">Тест</Link>
+                  <Link to="/leaderboard" className="hover:text-blue-200 transition">Лидеры</Link>
+                  <Link to="/admin" className="hover:text-blue-200 transition">⚙️ Админ</Link>
                 </>
               )}
               {token ? (
@@ -43,8 +44,8 @@ function App() {
                 </button>
               ) : (
                 <>
-                  <a href="/login" className="hover:text-blue-200 transition">Вход</a>
-                  <a href="/register" className="hover:text-blue-200 transition">Регистрация</a>
+                  <Link to="/login" className="hover:text-blue-200 transition">Вход</Link>
+                  <Link to="/register" className="hover:text-blue-200 transition">Регистрация</Link>
                 </>
               )}
             </div>
@@ -58,7 +59,7 @@ function App() {
           <Route path="/register" element={!token ? <Register /> : <Navigate to="/" />} />
           <Route path="/quiz" element={token ? <Quiz /> : <Navigate to="/login" />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
-          <Route path="/admin" element={token ? <Admin /> : <Navigate to="/login" />} /> {/* ✅ Новый маршрут */}
+          <Route path="/admin" element={token ? <Admin /> : <Navigate to="/login" />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </div>
